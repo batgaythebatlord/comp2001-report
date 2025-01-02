@@ -42,7 +42,8 @@ cursor = conn.cursor()
 
 #cursor.commit()
 
-cursor.execute("SELECT * FROM person")
-people = cursor.fetchall()
-for person in people:
-     print(person)
+#cursor.execute("SELECT * FROM person")
+#people = cursor.fetchall()
+#for person in people:
+#     print(person)
+
