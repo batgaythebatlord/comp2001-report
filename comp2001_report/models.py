@@ -32,7 +32,7 @@ class Trail(db.Model):
     trail_description = db.Column(db.Text, nullable=True)
     route_type = db.Column(db.Text, nullable=True)
     difficulty = db.Column(db.Text, nullable=True)
-    rating = db.Column(db.Decimal, nullable=True)
+    rating = db.Column(db.Float, nullable=True)
     location_name = db.Column(db.Text, nullable=True)
     owner_ID = db.Column(db.Integer, db.ForeignKey("CW2.user_info.user_id"), nullable=True)
 

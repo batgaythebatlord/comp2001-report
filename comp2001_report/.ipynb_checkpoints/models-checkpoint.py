@@ -1,9 +1,5 @@
 # models.py
 
-from datetime import datetime
-# from zoneinfo import ZoneInfo
-import pytz
-
 from config import db, ma
 from marshmallow_sqlalchemy import fields
 from marshmallow import fields
@@ -31,7 +27,7 @@ class Trail(db.Model):
 
     trail_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     trail_name = db.Column(db.Text, nullable=False)
-    length = db.Column(db.Integer, nullable=True)
+    trail_length = db.Column(db.Float, nullable=True)
     elevation_gain = db.Column(db.Integer, nullable=True)
     trail_description = db.Column(db.Text, nullable=True)
     route_type = db.Column(db.Text, nullable=True)

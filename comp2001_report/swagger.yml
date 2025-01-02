@@ -2,93 +2,141 @@
 
 openapi: 3.0.0
 info:
-  title: "RP Flask REST API"
-  description: "An API about people and notes"
-  version: "1.0.0"
+    title: "RP Flask REST API"
+    description: "An API about people and notes"
+    version: "1.0.0"
 
 servers:
   - url: "/api"
 
+tags:
+  - name: "trails"
+    description: "Trail (hike) operations"
+
 components:
   schemas:
-    Person:
+    Trail:
       type: "object"
-      required:
-        - lname
       properties:
-        fname:
+        trail_id:
+          type: "integer"
+        trail_name:
           type: "string"
-        lname:
+        trail_length:
+          type: "float"
+        elevation_gain:
+          type: "integer"
+        trail_description:
           type: "string"
+        route_type:
+          type: "string"
+        difficulty:
+          type: "string"
+        rating:
+          type: "float"
+        location_name:
+          type: "string"
+        owner_ID:
+          type: "integer"
   parameters:
-    lname:
-      name: "lname"
-      description: "Last name of the person to get"
-      in: path
-      required: True
+    trail_id:
+      name: "trail_id"
+      in: "path"
+      required: true
+      description: "The id of the trail"
+      schema:
+        type: "integer"
+    email:
+      name: "x-email"
+      in: "header"
+      required: false
+      description: "The email of the user"
+      schema:
+        type: "string"
+    password:
+      name: "x-password"
+      in: "header"
+      required: false
+      description: "The password of the user"
       schema:
         type: "string"
 
 paths:
-  /people:
+  "/trails":
     get:
-      operationId: "people.read_all"
-      tags:
-        - "People"
-      summary: "Read the list of people"
+      tags: ["trails"]
+      operationId: "trails.read_all"
+      summary: "Return an array of trails"
+      description: "Returns an array the trails. The information returned is limited."
       responses:
         "200":
-          description: "Successfully read people list"
+          description: "An array of trails"
     post:
-      operationId: "people.create"
-      tags:
-        - People
-      summary: "Create a person"
+      tags: ["trails"]
+      operationId: "trails.create"
+      summary: "Create a new trail"
+      description: "Create a new trail in the database"
+      parameters:
+        - schema:
+          $ref: "#/components/parameters/email"
+        - schema:
+          $ref: "#/components/parameters/password"
       requestBody:
-          description: "Person to create"
-          required: True
-          content:
-            application/json:
-              schema:
-                x-body-name: "person"
-                $ref: "#/components/schemas/Person"
+        description: "The trail to create"
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Trail"
       responses:
         "201":
-          description: "Successfully created person"
-  /people/{lname}:
+          description: "Created trail successfully"
+  "/trails/{trail_id}":
     get:
-      operationId: "people.read_one"
-      tags:
-        - People
-      summary: "Read one person"
+      tags: ["trails"]
+      operationId: "trails.read_one"
+      summary: "Return info about a certain trail"
+      description: "Returns info about a certain trail, if you are not an admin you will get limited details about the trail."
       parameters:
-        - $ref: "#/components/parameters/lname"
+        - schema:
+          $ref: "#/components/parameters/trail_id"
       responses:
         "200":
-          description: "Successfully read person"
+          description: "Information about a trail"
     put:
-      tags:
-        - People
-      operationId: "people.update"
-      summary: "Update a person"
+      tags: ["trails"]
+      operationId: "trails.update"
+      summary: "Update a trails information"
+      description: "Update information about a trail in the database"
       parameters:
-        - $ref: "#/components/parameters/lname"
+        - schema:
+          $ref: "#/components/parameters/trail_id"
+        - schema:
+          $ref: "#/components/parameters/email"
+        - schema:
+          $ref: "#/components/parameters/password"
       responses:
         "200":
-          description: "Successfully updated person"
+          description: "Trail has been updated"
       requestBody:
         content:
           application/json:
             schema:
-              x-body-name: "person"
-              $ref: "#/components/schemas/Person"
+              $ref: "#/components/schemas/Trail"
     delete:
-      tags:
-        - People
-      operationId: "people.delete"
-      summary: "Delete a person"
+      tags: ["trails"]
+      operationId: "trails.delete"
+      summary: "Remove a trail from the database"
+      description: "Remove a trail from the database. This will only work if you are an admin."
       parameters:
-        - $ref: "#/components/parameters/lname"
+        - schema:
+          $ref: "#/components/parameters/trail_id"
+        - schema:
+          $ref: "#/components/parameters/email"
+        - schema:
+          $ref: "#/components/parameters/password"
       responses:
         "204":
-          description: "Successfully deleted person"
+          description: "Trail has been removed"
+    
+    
