@@ -2,7 +2,8 @@ import requests
 
 auth_url = 'https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users'
 email = 'tim@plymouth.ac.uk'
-password = 'COMP2001!'
+password = 'COMP2001!'
+
 
 credentials = {
     'email': email,
